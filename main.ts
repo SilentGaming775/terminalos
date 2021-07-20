@@ -4,17 +4,17 @@ function username_make () {
         if (!(username.isEmpty())) {
             story.showPlayerChoices("Keep Username", "Rename Username")
             if (story.checkLastAnswer("Keep Username")) {
-                username_make()
-            } else {
                 blockSettings.writeString("Username", username)
                 username = blockSettings.readString("Username")
                 password_make()
+            } else {
+                username_make()
             }
         } else {
             username_make()
         }
     } else {
-        login()
+        request_terminal()
     }
 }
 function password_make () {
@@ -28,15 +28,15 @@ function password_make () {
         password_make()
     }
 }
+function request_terminal () {
+    terminal()
+}
 function profile () {
     game.showLongText("Password is:" + password + " Username is:" + username + " Continue to terminal?", DialogLayout.Full)
     story.showPlayerChoices("Yes", "")
     if (!(story.isMenuOpen())) {
         terminal()
     }
-}
-function login () {
-    terminal()
 }
 function terminal () {
     game.showLongText("Commands: wito, youtube, settings, profile, about, wimmca", DialogLayout.Bottom)
@@ -74,20 +74,23 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             terminal()
         }
     } else if ("Username" == option) {
+        blockMenu.closeMenu()
         game.showLongText("" + username + " is your username.", DialogLayout.Bottom)
         terminal()
     } else if ("Password" == option) {
+        blockMenu.closeMenu()
         game.showLongText("" + password + " is your password.", DialogLayout.Bottom)
         terminal()
     } else if ("Rename Password" == option) {
         password_make()
     } else if ("Rename Username" == option) {
         username_make()
-    } else {
+    } else if ("<- Back" == option) {
         terminal()
     }
 })
 let terminal_type = ""
 let password = ""
 let username = ""
+console.log("Hello! I am ConsleBot! I display variables numbers and even text! Like right now! You can change what's showing in the code editor!")
 username_make()
