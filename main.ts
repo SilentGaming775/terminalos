@@ -38,7 +38,12 @@ function profile () {
         terminal()
     }
 }
+radio.onReceivedString(function (receivedString) {
+    game.splash("Your friend is saying:", receivedString)
+    terminal()
+})
 function terminal () {
+    game.showLongText("If you didn't know, you'll be sent back to the terminal after you get a message.", DialogLayout.Bottom)
     game.showLongText("Commands: wito, youtube, settings, profile, about, wimmca", DialogLayout.Bottom)
     terminal_type = game.askForString("Type a command")
     if (terminal_type == "settings") {
@@ -48,6 +53,7 @@ function terminal () {
         "Password",
         "Username",
         "Erase Data",
+        "Message",
         "<- Back"
         ], MenuStyle.Grid, MenuLocation.FullScreen)
     } else if (terminal_type == "youtube") {
@@ -63,6 +69,7 @@ function terminal () {
         terminal()
     } else {
         game.showLongText("i don't even know what ur saying lol", DialogLayout.Bottom)
+        terminal()
     }
 }
 blockMenu.onMenuOptionSelected(function (option, index) {
@@ -87,8 +94,19 @@ blockMenu.onMenuOptionSelected(function (option, index) {
         username_make()
     } else if ("<- Back" == option) {
         terminal()
+    } else {
+        radio.raiseEvent(
+        121,
+        20
+        )
+        group = game.askForNumber("Enter your radio brodcast number.", 4)
+        radio.setGroup(group)
+        send = game.askForString("Type what you are sending.", 19)
+        radio.sendString(send)
     }
 })
+let send = ""
+let group = 0
 let terminal_type = ""
 let password = ""
 let username = ""
